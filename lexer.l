@@ -8,7 +8,7 @@
 // enum batata {NUMBER}
 
 
-#include "t.tab.h"
+#include "bison.tab.h"
 
 %}
 
