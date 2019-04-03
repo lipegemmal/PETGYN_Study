@@ -1,29 +1,30 @@
-/* Infix notation calculator--calc */
+
 
 %{
-//#define YYSTYPE double
 
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
 
-extern int yylex();
-extern int yyparse();
+#include "solveLexer.h"
 
-void yyerror(const char *s);
+extern int yyparse();
+extern int yylex();
+void yyerror(double *result,const char *s);
 
 %}
+
+%parse-param { double *result }
 
 %union{
     double d;
 }
 
 
-/* BISON Declarations */
 %token <d> NUMBER
 %left '-' '+'
 %left '*' '/'
-%right '^'    /* exponentiation        */
+%right '^'    /* exponentiation */
 %token '\n'
 
 %type <d>  exp 
@@ -32,7 +33,7 @@ void yyerror(const char *s);
 %%
 
 calc:  
-|exp '\n'  {printf(" = %f\n", $1); fflush(stdout);return;}
+|exp '\n'  { *result = $1;}
 ;
     
 exp:      NUMBER             { $$ = $1;         }
@@ -47,13 +48,15 @@ exp:      NUMBER             { $$ = $1;         }
 ;
 %%
 
+//To execute without main.c, uncomment bison main()
+/*
 int main(int argc, char **argv){
 
     yyparse();
     return 0;
 }
-
-void yyerror(const char *s) {
+*/
+void yyerror(double *result , const char *s) {
   printf("EEK, parse error!  Message: %s\n",s);
   // might as well halt now:
   exit(-1);
