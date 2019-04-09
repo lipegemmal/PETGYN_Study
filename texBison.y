@@ -38,7 +38,6 @@ calc:
 |exp '\n'  { *result = strdup($1); printf("Resultado dentro do bison: %s\n",*result);}
 ;
     
-
 exp: VAR { 
        //char *c = strdup($1);
         $$ = strdup($1);
@@ -64,7 +63,7 @@ exp: VAR {
     {
         char c[256];//= malloc( (sizeof(char)*sizeof($1)*sizeof("\\ast")*sizeof($3))+1 );
         
-        sprintf(c,"%s\\ast%s",$1,$3);
+        sprintf(c,"%s\\cdot %s",$1,$3);
         $$ = strdup(c);
         //string = %1 \ast %3
     }
@@ -73,7 +72,7 @@ exp: VAR {
     {
         char c[256];//= malloc( (sizeof(char)*sizeof($1)*sizeof("\\frac{}{}")*sizeof($3)+1 );
         
-        sprintf(c,"\\frac{%s}{%s}",$1,$3);
+        sprintf(c,"\\left(\\frac{%s}{%s}\\right)",$1,$3);
         $$ = strdup(c);
         // string = \frac{%1}{%3}
     }
@@ -97,7 +96,7 @@ exp: VAR {
     {
         char c[256];//= malloc( (sizeof(char)*sizeof($1)*sizeof('+')*sizeof($3))+1 );
         
-        sprintf(c,"(%s)",$2);
+        sprintf(c,"\\left(%s\\right)",$2);
         $$ = strdup(c);
 
 

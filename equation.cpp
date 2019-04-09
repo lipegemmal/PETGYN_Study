@@ -28,7 +28,7 @@ double Equation::getResult(){
 }
 
 void Equation::generatePdfFile(string tex_file){
-    string command = "pdflatex "+ tex_file;
+    string command = "pdflatex " + tex_file + " > /dev/null 2>&1";
 
     system(command.c_str());
     //system("pdflatex teste.tex");
@@ -50,7 +50,7 @@ void Equation::generateLatexFile(string file_name){
     
     l_file.open(full_name.c_str());
     
-    l_file << "\\documentclass[preview]{standalone}\n\n";
+    l_file << "\\documentclass[preview,border=1pt]{standalone}\n\n";
     l_file << "\\begin{document}\n";
     l_file << "$\n";
     l_file << eq_resolved;
