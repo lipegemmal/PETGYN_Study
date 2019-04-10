@@ -28,7 +28,7 @@ double Equation::getResult(){
 }
 
 void Equation::generatePdfFile(string tex_file){
-    string command = "pdflatex " + tex_file + " > /dev/null 2>&1";
+    string command = "pdflatex " + tex_file ;//+ " > /dev/null 2>&1";
 
     system(command.c_str());
     //system("pdflatex teste.tex");
@@ -45,12 +45,19 @@ void Equation::generateLatexFile(string file_name){
     yyparse(&eq_resolved);
 
     //cout << eq_resolved <<endl;
+    string trigfunctions ="\\DeclareMathOperator{\\asin}{asin}\n";
+    trigfunctions += "\\DeclareMathOperator{\\acos}{acos}\n";
+    trigfunctions+="\\DeclareMathOperator{\\atan}{atan}\n";
+    //trigfunctions += "\\DeclareMathOperator{\\sinh}{sinh}\n";
+    //trigfunctions += "\\DeclareMathOperator{\\cosh}{cosh}\n";
+    //trigfunctions += "\\DeclareMathOperator{\\tanh}{tanh}\n";
 
-
-    
     l_file.open(full_name.c_str());
     
-    l_file << "\\documentclass[preview,border=1pt]{standalone}\n\n";
+    l_file << "\\documentclass[preview,border=1pt]{standalone}\n";
+    l_file <<"\\usepackage{siunitx}\n";
+    l_file <<"\\usepackage{amsmath}\n";
+    l_file << trigfunctions;
     l_file << "\\begin{document}\n";
     l_file << "$\n";
     l_file << eq_resolved;
