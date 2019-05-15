@@ -28,9 +28,11 @@ double Equation::getResult(){
 }
 
 void Equation::generatePdfFile(string tex_file){
-    string command = "pdflatex " + tex_file ;//+ " > /dev/null 2>&1";
+    string compile = "pdflatex " + tex_file + " > /dev/null 2>&1";
+    string convert = "convert -density 300 -depth 8 -quality 85 "+ tex_file+".pdf "+ tex_file+".png";
+    system(compile.c_str());
 
-    system(command.c_str());
+    system(convert.c_str());
     //system("pdflatex teste.tex");
     return;
 }
@@ -41,7 +43,6 @@ void Equation::generateLatexFile(string file_name){
     char *eq_resolved;
 
     yy_scan_string(eq.c_str());
-
     yyparse(&eq_resolved);
 
     //cout << eq_resolved <<endl;
@@ -68,10 +69,12 @@ void Equation::generateLatexFile(string file_name){
 
     cout << "Arquivo tex gerado \n";
 
+    //yylex_destroy();
     generatePdfFile(file_name);
     
     cout << "Arquivo Pdf gerado\n";
     
+    free(eq_resolved);
     return;
 
 }
