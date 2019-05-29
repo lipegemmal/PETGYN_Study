@@ -2,3 +2,8 @@ NoToolCompiler/ANAEXPR.h
 NoToolCompiler/ANAEXPR.c
 
 
+lex.yy.c
+texLexer.h
+texBison.tab.h
+texBison.tab.c
+test.tex
