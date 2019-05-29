@@ -7,3 +7,5 @@ texLexer.h
 texBison.tab.h
 texBison.tab.c
 test.tex
+
+.vscode/
