@@ -16,6 +16,6 @@ int main(){
 
     //cout << teste->getResult() <<endl;
 
-
+    delete teste;
     return 0;
 }
