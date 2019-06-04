@@ -49,9 +49,9 @@ void Equation::generateLatexFile(string file_name){
     string trigfunctions ="\\DeclareMathOperator{\\asin}{asin}\n";
     trigfunctions += "\\DeclareMathOperator{\\acos}{acos}\n";
     trigfunctions+="\\DeclareMathOperator{\\atan}{atan}\n";
-    trigfunctions += "\\DeclareMathOperator{\\sinh}{sinh}\n";
-    trigfunctions += "\\DeclareMathOperator{\\cosh}{cosh}\n";
-    trigfunctions += "\\DeclareMathOperator{\\tanh}{tanh}\n";
+    //trigfunctions += "\\DeclareMathOperator{\\sinh}{sinh}\n";
+    //trigfunctions += "\\DeclareMathOperator{\\cosh}{cosh}\n";
+    //trigfunctions += "\\DeclareMathOperator{\\tanh}{tanh}\n";
 
     l_file.open(full_name.c_str());
     
