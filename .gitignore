@@ -9,3 +9,4 @@ texBison.tab.c
 test.tex
 
 .vscode/
+a.out

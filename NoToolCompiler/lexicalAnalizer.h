@@ -7,7 +7,7 @@ class LEXER{
     
     public:        
         // enum class Classes 
-        enum class TokenTypes {None,Number,Identifier,Simbol,Reserved,FileEnd};
+        enum class TokenTypes {None=0,Number=1,Identifier=2,Simbol=3,Reserved=4,FileEnd=5};
 
         //enum class For DFA states
         enum class States { A0,A1,A2,A3,A4,A5,A6,A7,A8 };
@@ -22,7 +22,7 @@ class LEXER{
         std::string getNextToken();
         
         //Checks if all of the simbols string has been analysed
-        bool isFinished(){ return symbolPosition == symbols.size() ?  true :  false;};
+        bool isFinished(){ return symbolPosition == symbols.size()? true :  false;};
 
         
         /*Gets*/
@@ -32,6 +32,7 @@ class LEXER{
         std::string getSpecialChars(){return specialCharacters;};
         std::string getPreUnaryChars(){return preUnaryCharacters;};
         std::string getSymbols(){return symbols;};
+        char getLastSymbol(){return lastSymbol;};
         std::string getToken(){return token;}
         double getValue(){return value;};
         std::vector<std::string> getReservedWords(){return reservedWords;};
@@ -50,20 +51,20 @@ class LEXER{
         std::string preUnaryCharacters = {",(^*/+-"};
         
         std::vector<std::string> reservedWords ={"ABS",
-                                                 "ACOS"
-                                                 "ASIN"
-                                                 "ATAN"
-                                                 "COS"
-                                                 "COSH"
-                                                 "EXP"
-                                                 "LN"
-                                                 "LOG"
-                                                 "NEP"
-                                                 "PI"
-                                                 "SIN"
-                                                 "SINH"
-                                                 "SQRT"
-                                                 "TAN"
+                                                 "ACOS",
+                                                 "ASIN",
+                                                 "ATAN",
+                                                 "COS",
+                                                 "COSH",
+                                                 "EXP",
+                                                 "LN",
+                                                 "LOG",
+                                                 "NEP",
+                                                 "PI",
+                                                 "SIN",
+                                                 "SINH",
+                                                 "SQRT",
+                                                 "TAN",
                                                  "TANH"};
                                         
         
@@ -99,6 +100,7 @@ class LEXER{
         /*Private sets*/
         void setSymbPos(int n){symbolPosition=n;};
         void incSymbPos(int i=1){ symbolPosition+=i;};
+        void includeEndChar(){symbols+=' ';};
         void concatToken(char c){ token += c;};
         void setState(States s) { state = s;};
         void setType(TokenTypes t){ tokentype = t;}

@@ -1,57 +1,85 @@
 //Ainda é legal modifical os erros
 
 #include "lexicalAnalizer.h"
+#include <iostream>
+
+
+
+
+
+int main(){
+    std::string test;
+    //getline(std::cin,test);
+
+    //LEXER l (test);
+    LEXER l ("SIN(2)");
+    
+    //test.clear();
+
+    do{
+        test = l.getNextToken();
+        std::cout <<"Char:"<<test<<" Class:"<<(int)l.getType()<<std::endl;
+        
+    }while(test[0] != '\0');
+
+    std::cout << std::endl;
+    return 0;
+}
+
+
 
 
 
 LEXER::LEXER(std::string s){
     setSymbols(s);
+    includeEndChar();
     setSymbPos(0);
     setState(States::A0);
     setType(TokenTypes::None);
     setLastSymbol(0);
-    setValue(NULL);
     
 }
 
 std::string LEXER::getNextToken(){
     //if all tokens have already been processed
-    if( isFinished() ){ return " ";}
-    
+    if( isFinished() == true){ 
+        setType(TokenTypes::FileEnd);
+        return "\0";
+    }
     
     token.clear();
 
-    tokentype = TokenTypes::None;
-    state = States::A0;
+    setType(TokenTypes::None);
+    setState(States::A0);
 
-    while(state != States::A8){
+    while(getState() != States::A8){
         switch (state){
 
             case States::A0: A0();
-
+                break;
             case States::A1: A1();
-
+                break;
             case States::A2: A2();
-
+                break;
             case States::A3: A3();
-        
+                break;        
             case States::A4: A4();
-
+                break;
             case States::A5: A5();
-
+                break;
             case States::A6: A6();
-
+                break;
             case States::A7: A7();
-            
+                break;
             default:    //should return an error message
                 break;
         }
     }
     //precisa colocar pois não tem incremento no inicio do original
     //se não o algoritmo vai comer um caracter e/ou acessar caracteres lixo
-    incSymbPos(-1);
+    incSymbPos(-2);
     setLastSymbol(getCurChar());
-
+    incSymbPos();
     return getToken();
 }
 
@@ -236,7 +264,7 @@ void LEXER::S2(char c){
 
 void LEXER::S3(char c){
     setValue();
-    if(getValue == 0)
+    if(getValue() == 0)
         exit((int)Error::Overflow);
 }
 
@@ -248,7 +276,7 @@ void LEXER::S4(char c){
 void LEXER::S5(char c){
     setType(TokenTypes::Simbol);
 
-    if(isPreUnary(c)){
+    if(isPreUnary(getLastSymbol())){
         if(c == '-')
             concatToken('!');
         else
@@ -258,6 +286,7 @@ void LEXER::S5(char c){
         concatToken(c);
 
     setLastSymbol(c);
+    incSymbPos();
 }
 
 void LEXER::S6(char c){
@@ -274,7 +303,9 @@ void LEXER::S7(char c){
 }
 
 void LEXER::S8(char c){
-    if(isReserved(getToken())){
+    if(
+        isReserved(getToken())
+        ){
         setType(TokenTypes::Reserved);
     }
     else
