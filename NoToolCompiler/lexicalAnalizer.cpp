@@ -1,7 +1,6 @@
 //Ainda é legal modifical os erros
 
 #include "lexicalAnalizer.h"
-#include <iostream>
 
 
 
@@ -12,7 +11,7 @@ int main(){
     //getline(std::cin,test);
 
     //LEXER l (test);
-    LEXER l ("SIN(2)");
+    LEXER l ("+5");
     
     //test.clear();
 
@@ -36,7 +35,7 @@ LEXER::LEXER(std::string s){
     setSymbPos(0);
     setState(States::A0);
     setType(TokenTypes::None);
-    setLastSymbol(0);
+    setLastSymbol(' ');
     
 }
 
@@ -80,10 +79,9 @@ std::string LEXER::getNextToken(){
     incSymbPos(-2);
     setLastSymbol(getCurChar());
     incSymbPos();
+    //std::cout<<"Token "<<getToken()<<" CurChar:"<<getCurChar()<<std::endl;
     return getToken();
 }
-
-
 
 
 //State functions
@@ -119,7 +117,7 @@ void LEXER::A0(){
                         setState(States::A7);
                     }
                     else
-                        exit((int)Error::UnknownSimbol);    
+                        errorExit(Error::UnknownSimbol);    
     incSymbPos();
     return;
 }   
@@ -143,7 +141,7 @@ void LEXER::A1(){
                     setState(States::A8);
                 }
                     else
-                        exit((int)Error::UnknownSimbol);
+                        errorExit(Error::UnknownSimbol);
 
     incSymbPos();
     return;
@@ -161,7 +159,7 @@ void LEXER::A2(){
             setState(States::A8);
         }
             else
-                exit((int)Error::UnknownSimbol);
+                errorExit(Error::UnknownSimbol);
 
     incSymbPos();
     return;
@@ -175,7 +173,7 @@ void LEXER::A3(){
         setState(States::A5);
     }
         else
-            exit((int)Error::UnknownSimbol);
+            errorExit(Error::UnknownSimbol);
     
     incSymbPos();
     return;
@@ -196,7 +194,7 @@ void LEXER::A4(){
                 setState(States::A8);
             }
                 else
-                    exit((int)Error::UnknownSimbol);
+                    errorExit(Error::UnknownSimbol);
 
     incSymbPos();
     return;
@@ -213,7 +211,7 @@ void LEXER::A5(){
             setState(States::A8);
         }
             else
-                exit((int)Error::UnknownSimbol);
+                errorExit(Error::UnknownSimbol);
                 
     incSymbPos();
     return;
@@ -230,7 +228,7 @@ void LEXER::A6(){
             setState(States::A8);
         }
             else
-                exit((int)Error::UnknownSimbol);
+                errorExit(Error::UnknownSimbol);
 
     incSymbPos();
     return;
@@ -243,9 +241,9 @@ void LEXER::A7(){
         S9(c);
         setState(States::A8);
     }
-        else
-            exit((int)Error::UnknownSimbol);
-
+        else{
+            errorExit(Error::UnknownSimbol);
+        }
     incSymbPos();
     return;
 }
@@ -265,7 +263,7 @@ void LEXER::S2(char c){
 void LEXER::S3(char c){
     setValue();
     if(getValue() == 0)
-        exit((int)Error::Overflow);
+        errorExit(Error::Overflow);
 }
 
 void LEXER::S4(char c){

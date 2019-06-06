@@ -1,6 +1,7 @@
 #include <string>
 #include <cctype>
 #include <vector>
+#include <iostream>
 
 class LEXER{
 
@@ -17,12 +18,11 @@ class LEXER{
 
         //Constructor
         LEXER(std::string simbols);
-        
-        //Analyses simbols string and returns the next token
+                //Analyses simbols string and returns the next token
         std::string getNextToken();
         
         //Checks if all of the simbols string has been analysed
-        bool isFinished(){ return symbolPosition == symbols.size()? true :  false;};
+        bool isFinished(){ return symbolPosition == symbols.size()-1? true :  false;};
 
         
         /*Gets*/
@@ -47,8 +47,8 @@ class LEXER{
         //value if number is converted, devo colocar uma flag?
         double value;
 
-        std::string specialCharacters = {".,=()^*/+-"};
-        std::string preUnaryCharacters = {",(^*/+-"};
+        std::string specialCharacters = {".,=()^*/+- "};
+        std::string preUnaryCharacters = {",(^*/+- "};
         
         std::vector<std::string> reservedWords ={"ABS",
                                                  "ACOS",
@@ -107,5 +107,74 @@ class LEXER{
         void setLastSymbol(char c){lastSymbol = c;};
         void setSymbols(std::string s){symbols=s;};
         void setValue(){value = stof(token);};
+        
         /*Auxiliar Functions*/
-};  
+
+        //return State in String form 
+        std::string showState(){
+            States a = getState();
+            switch(a){
+                case States::A0:
+                    return "A0";
+                    break;
+                case States::A1:
+                    return "A1";
+                    break;
+                case States::A2:
+                    return "A2";
+                    break;
+                case States::A3:
+                    return "A3";
+                    break;
+                case States::A4:
+                    return "A4";
+                    break;
+                case States::A5:
+                    return "A5";
+                    break;
+                case States::A6:
+                    return "A6";
+                    break;
+                case States::A7:
+                    return "A7";
+                    break;
+                case States::A8:
+                    return "A8";
+                    break;
+            }
+        }
+
+        //return Type in string format
+        std::string showType(){
+                TokenTypes a = getType();
+                
+                switch(a){
+                    case TokenTypes::None:
+                        return "None";
+                    case TokenTypes::Number:
+                        return "Number";
+                    case TokenTypes::Identifier:
+                        return "Identifier";
+                    case TokenTypes::Simbol:
+                        return "Simbol";
+                    case TokenTypes::Reserved:
+                        return "Reserved";
+                    case TokenTypes::FileEnd:
+                        return "FileEnd";
+                }
+        }
+
+        //Error function
+        void errorExit(Error e){
+            switch (e){
+                case Error::Overflow:
+                    std::cout<<"Overflow";
+                   break;
+                case Error::UnknownSimbol:
+                    std::cout<<"UnknownSimbol";
+                    break;
+            }
+            std::cout<< " error in State: "<<showState() <<" with class: "<< showType()<<std::endl; 
+            exit(1);
+        }
+};
