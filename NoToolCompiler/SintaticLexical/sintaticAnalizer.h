@@ -1,7 +1,7 @@
 #include "lexicalAnalizer.h"
 #include "token.h"
 #include "libTypes.h"
-
+#include <utility>
 
 
 class SINTATIC{
@@ -15,6 +15,11 @@ class SINTATIC{
         SINTATIC(std::string s);
         ~SINTATIC();
 
+        bool isVariableListEmpty(){return variableList.empty();};
+        int countVariableList(){return variableList.size();};
+        void assignVariableValue(int pos, double v) { variableList[pos].second = v; };
+        std::string getVariableName(int pos){return variableList[pos].first;};
+
         void cabecalho();
         void expressao();
 
@@ -24,7 +29,15 @@ class SINTATIC{
         LEXER* lex;
 
 
-       
+        std::vector< std::pair<std::string,double> > variableList;
+
+        bool isInList(std::string s);
+
+        void emptyVariableList(){variableList.clear();}
+        //inserts Variable without value in list;
+        void insertVariableList(std::string s){variableList.push_back( std::make_pair(s,0));};
+        
+
         void empileToken(TOKEN t ){pile.push(t);};
         void emptyPile(){while(!pile.empty()){pile.pop();}};
         void popPile(){pile.pop();};

@@ -7,7 +7,7 @@
 
 int main(){
 
-    std::unique_ptr<SINTATIC> s(new SINTATIC ("T1 (A,B,C) = 12+2/3*4") );
+    std::unique_ptr<SINTATIC> s(new SINTATIC ("F1 (a,b,x) = a*b + a*x") );
 
     s->cabecalho();
     s->expressao();
@@ -35,10 +35,14 @@ void SINTATIC::cabecalho(){
                 //colocar o identificador do parametro na tabela de simbolos
         
                 if(lex->getType() == TokenTypes::Identifier){
-                    std::cout<<"found ID:"<< str <<std::endl;//aqui foi ignorado o limite máximo de variaveis
+                    //std::cout<<"found ID:"<< str <<std::endl;//aqui foi ignorado o limite máximo de variaveis
+                    if(isInList(str) == false){
+                        insertVariableList(str);
+                    }
+                    std::cout << "ID inserted:" << getVariableName(cont) << std::endl;
+                    cont++;
                 }
                 else{
-                    //comparando com o anasint.c não faz sentido
                     if( str[0] != ',' && str[0] != ')' )
                         errorExit(Error::UnknownSimbol,"cabecalho");
                 }
@@ -70,7 +74,18 @@ void SINTATIC::expressao(){
     
     while(1){
         t = new TOKEN(str,lex->getType());
-        prec = precedence(*t);
+        
+        //verifica se usa um identificador não declarado
+        if (t->getType() == TokenTypes::Identifier){
+            std::cout << "Testing Token:" << t->getToken() <<std::endl;
+            if(isInList(t->getToken()) == false){
+                    std::cout <<"Simbolo não declarado!!" << std::endl;
+                    //*** Retornar erro de uso de identificador não declarado
+            }
+            //std::cout <<"Token passed!" <<std::endl;
+        }
+
+            prec = precedence(*t);
         if( prec == '<' || prec == '='){
             empileToken(*t);
             if(t->getType() != TokenTypes::FileEnd){
@@ -143,10 +158,21 @@ char SINTATIC::precedence(TOKEN t){
 
 SINTATIC::SINTATIC(std::string s){
     emptyPile();
-    lex = new LEXER(s);
     
+    lex = new LEXER(s);
 }
 
 SINTATIC::~SINTATIC(){
     free(lex);
+}
+
+//Test if s is in the list, used to check repetitions or undeclared variables use.
+bool SINTATIC::isInList(std::string s){
+    for(int i = 0 ; i < countVariableList() ; i++){
+        if( s == getVariableName(i))
+            return true;
+    }
+
+    // if the list is empty or s doesn't match any element in list
+    return false;
 }
