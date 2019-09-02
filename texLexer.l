@@ -18,6 +18,7 @@
 \*                  { return '*'; }  
 \^                  { return '^'; }
 \-                  { return '-'; }
+\,                  { return ','; }
 \=                  { return '='; }
 [\n]                { return '\n'; }
 PI                  { return PI; }

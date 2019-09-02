@@ -38,22 +38,49 @@ void yyerror(char **result,const char *s);
 %type <str>  exp
 %type <str> trigfunc
 %type <str> cabecalho 
+%type <str> variaveis
+%type <str> vars
 /* Grammar follows */
 
 %%
 
 calc:  
-|cabecalho '=' exp '\n'  { 
+|cabecalho variaveis '=' exp '\n'  { 
     char c[1024];
-    sprintf(c,"%s = %s",$1,$3);
+    sprintf(c,"%s (%s) = %s",$1,$2,$4);
     *result = strdup(c); 
-    printf("Resultado dentro do bison: %s e %s\n",$1,$3);
+    printf("Resultado dentro do bison: %s e %s e %s\n",$1,$2,$4);
     free($1);
-    free($3);
+    free($2);
+    free($4);
 }
 ;
 
 cabecalho: VAR{ $$ = $1;}
+;
+
+variaveis: {   
+    char c[2];
+    sprintf(c," ");
+    $$ = strdup(c);
+    }
+    
+    |'('vars')' {
+        char c[24];
+        sprintf(c,"%s",$2);
+        $$ = strdup(c);
+        free($2);
+    }
+;
+
+vars: VAR','vars {
+    char c[1024];
+    sprintf(c,"%s,%s",$1,$3);
+    $$ = strdup(c);
+    free($3);
+    }
+
+|VAR {$$ = $1;}
 ;
 
 exp: VAR { 
@@ -275,7 +302,7 @@ int main(int argc, char **argv){
 }
 */
 void yyerror(char **result , const char *s) {
-  printf("EEK, parse error!  Message: %s Result: %s\n",s,*result);
+  printf("EEK, parse error on texBison!  Message: %s Result: %s\n",s,*result);
   // might as well halt now:
   exit(-1);
 }

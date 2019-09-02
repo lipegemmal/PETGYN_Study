@@ -1,10 +1,10 @@
 #include "sintaticAnalizer.h"
 #include <iostream>
-#include <memory>
 
 
 
 
+/*
 int main(){
 
     //std::string a;
@@ -24,7 +24,7 @@ int main(){
    
     return 0;
 }
-
+*/
 
 void SINTATIC::cabecalho(){
     int cont = 0;
