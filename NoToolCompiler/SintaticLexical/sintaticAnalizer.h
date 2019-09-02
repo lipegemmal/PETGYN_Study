@@ -12,6 +12,8 @@ class SINTATIC{
         bool isEmpty(){return pile.empty();};
         int getPrecPos(char c) { return precedences[0].find(c); };
         char getPrecedence(int line, int column){return precedences[line][column];};
+        std::string getName(){return equationName;};
+        std::string getExpression(){return expression;};
         SINTATIC(std::string s);
         ~SINTATIC();
 
@@ -26,24 +28,23 @@ class SINTATIC{
     private:
         std::stack<TOKEN> pile;
         std::string s;
+        std::string expression;
         LEXER* lex;
-
-
+        std::string equationName;
         std::vector< std::pair<std::string,double> > variableList;
 
         bool isInList(std::string s);
-
         void emptyVariableList(){variableList.clear();}
         //inserts Variable without value in list;
         void insertVariableList(std::string s){variableList.push_back( std::make_pair(s,0));};
-        
-
         void empileToken(TOKEN t ){pile.push(t);};
         void emptyPile(){while(!pile.empty()){pile.pop();}};
         void popPile(){pile.pop();};
-        
         //compares TOKEN t precedence with pile.top()'s token
         //char precedence(TOKEN t);
+        void setEquationName(std::string s){equationName = s;};
+        //get expression from equation, estarting with the next token after '=' 
+        void setExpression(std::string s) {int eqPos = s.find('='); expression = s.substr(eqPos + 1, s.length() - (eqPos + 1));}
 
         //Error function
         void errorExit(Error e,std::string s)

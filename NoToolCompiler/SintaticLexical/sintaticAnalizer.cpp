@@ -7,12 +7,21 @@
 
 int main(){
 
-    std::unique_ptr<SINTATIC> s(new SINTATIC ("F1 (a,b,x) = a*b + a*x") );
+    //std::string a;
+    //std::cout << "Digite a equacao:" <<std::endl;
+    //getline(std::cin, a);
+    //std::unique_ptr<SINTATIC> s(new SINTATIC(a));
 
+    std::unique_ptr<SINTATIC> s(new SINTATIC (" F1 (a,b,x) = a*b + a*x") );
+    
     s->cabecalho();
     s->expressao();
    // std::cout << s->getTop().getToken() <<std::endl;
 
+    std::cout <<"EquationName:" << s->getName() << std::endl;
+    std::cout <<"Expression:" << s->getExpression() << std::endl;
+
+   
     return 0;
 }
 
@@ -26,6 +35,7 @@ void SINTATIC::cabecalho(){
         errorExit(Error::NonIdentifier,"cabecalho");
  
     else{
+        setEquationName(str);
         //Colocar o nome da função na tabela de simbolos
         str = lex->getNextToken();
         if(str[0] == '(' )
@@ -72,7 +82,9 @@ void SINTATIC::expressao(){
     if(str[0] == ' ')
         errorExit(Error::Empty,"expressao");
     
+    
     while(1){
+
         t = new TOKEN(str,lex->getType());
         
         //verifica se usa um identificador não declarado
@@ -113,6 +125,7 @@ void SINTATIC::expressao(){
                 }while(prec != '<');
             }
             //geração de código
+            
             else{
                 errorExit(Error::Empty,"Geração de código");
             }
@@ -159,6 +172,7 @@ char SINTATIC::precedence(TOKEN t){
 SINTATIC::SINTATIC(std::string s){
     emptyPile();
     
+    setExpression(s);
     lex = new LEXER(s);
 }
 
