@@ -1,9 +1,14 @@
 # PETGYN_Study
-Bison and Flex that will be used in PETGYN application, 
+
+System to generate images and Dynamic C libraries based on matematical equations.
+
+It uses a lexial and sintatical analyser to manipulate and/or find errors in the inserted equation.
 
 
-# To compile solver by hand:
-$ bison -d solveBison.y
-$ flex --header-file=solveLexer.h solveLexer.l
-$ gcc equation.cpp main.cpp texBison.tab.c lex.yy.c -lfl -o a.out
+There is a old Bison and Flex implementation that is outdated in "otherImplementations" folder.
+
+#Function model
+
+    Fname (variable1,variable2,variable3) = expression
+
 
