@@ -19,8 +19,9 @@ class SINTATIC{
 
         bool isVariableListEmpty(){return variableList.empty();};
         int countVariableList(){return variableList.size();};
-        void assignVariableValue(int pos, double v) { variableList[pos].second = v; };
-        std::string getVariableName(int pos){return variableList[pos].first;};
+       
+        std::string getVariableName(int pos){return variableList[pos];};
+        std::vector<std::string> getVariableList(){return variableList;};
 
         void cabecalho();
         void expressao();
@@ -31,12 +32,12 @@ class SINTATIC{
         std::string expression;
         LEXER* lex;
         std::string equationName;
-        std::vector< std::pair<std::string,double> > variableList;
+        std::vector< std::string > variableList;
 
         bool isInList(std::string s);
         void emptyVariableList(){variableList.clear();}
         //inserts Variable without value in list;
-        void insertVariableList(std::string s){variableList.push_back( std::make_pair(s,0));};
+        void insertVariableList(std::string s){variableList.push_back( s);};
         void empileToken(TOKEN t ){pile.push(t);};
         void emptyPile(){while(!pile.empty()){pile.pop();}};
         void popPile(){pile.pop();};
@@ -65,6 +66,9 @@ class SINTATIC{
                 break;
             case Error::Empty:
                 std::cout << "Empty";
+                break;
+            case Error::Repeated:
+                std::cout << "Repeated vareable";
                 break;
             }
             std::cout <<" Error In :"<< s <<std::endl;

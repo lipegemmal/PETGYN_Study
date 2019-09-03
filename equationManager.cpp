@@ -16,9 +16,15 @@ EquationManager::EquationManager(std::string s){
 
     setName( sintatic->getName() );
     setExpressao( sintatic->getExpression() );
+    setVariableList( sintatic->getVariableList() ); 
 
     std::cout << "EqName:" << getName() <<std::endl;
     std::cout << "EqExpressao:" << getExpressao() << std::endl;
+    std::cout << "Variable list" << std::endl;
+        for(int i=0 ; i < countVariableList() ; i++ ){
+            std::cout << getVariable(i) << " ";
+        }
+        std::cout << std::endl;
 
 }
 
@@ -82,3 +88,31 @@ void EquationManager::generateLatexFile(){
     return;
 }
 
+
+void EquationManager::generateDynamicLib (){
+    std::ofstream c_file;
+    std::string full_name = getName() + ".c";
+
+    int variableQtd = countVariableList();
+
+    std::cout << "Gerando arquivo c" <<std::endl;
+
+    c_file.open(full_name.c_str());
+
+    c_file << "#include <math.h>\n\n";
+    c_file << "double "+ getName() + "(";
+        for(int i = 0; i < variableQtd ; i++){
+            c_file << "double " + getVariable(i);
+            //this prevents the extra ','
+            if( i+1 != variableQtd){
+                c_file << ",";
+            } 
+        }    
+    c_file << "){\n\n";
+    c_file << "return "+ getExpressao() +" ; \n}";
+
+    c_file.close();
+
+    std::cout << "Arquivo c gerado" << std::endl;
+
+}

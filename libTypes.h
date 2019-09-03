@@ -8,7 +8,7 @@
 #define LIBTYPES
 
 //enum class for errors
-enum class Error {UnknownSimbol,Overflow,NonIdentifier,NonAtribuition,Empty};
+enum class Error {UnknownSimbol,Overflow,NonIdentifier,NonAtribuition,Empty,Repeated};
 
 const std::string specialCharacters = {".,=()^*/+- "};
 const std::string preUnaryCharacters = {",(^*/+- "};

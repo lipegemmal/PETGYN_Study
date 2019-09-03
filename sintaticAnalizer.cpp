@@ -48,15 +48,21 @@ void SINTATIC::cabecalho(){
                     //std::cout<<"found ID:"<< str <<std::endl;//aqui foi ignorado o limite máximo de variaveis
                     if(isInList(str) == false){
                         insertVariableList(str);
+                        std::cout << "ID inserted:" << getVariableName(cont) << std::endl;
                     }
-                    std::cout << "ID inserted:" << getVariableName(cont) << std::endl;
+                    //if element is already in list "repeated"
+                    else{
+                        errorExit(Error::Repeated, "cabecalho");
+                    }
                     cont++;
+
                 }
                 else{
                     if( str[0] != ',' && str[0] != ')' )
                         errorExit(Error::UnknownSimbol,"cabecalho");
                 }
             }
+
         }
         str = lex->getNextToken();
 
