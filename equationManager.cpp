@@ -3,22 +3,27 @@
 #include <stdlib.h>
 
 #include "equationManager.h"
-#include "texBison.tab.h"
+//#include "texBison.tab.h"
 #include "texLexer.h"
+#include "texBison.tab.h"
 
 EquationManager::EquationManager(std::string s){
     setEquation(s);
 
-    sintatic = std::unique_ptr<SINTATIC>(new SINTATIC(s));
+    sintatic = new SINTATIC(s);
 
-    sintatic->cabecalho();
-    sintatic->expressao();
 
+   
+    std::cout << "Parsing" << std::endl;
+    yy_scan_string(eq.c_str());
+    yyparse(&eq_resolved, sintatic);
+
+    
     setName( sintatic->getName() );
-    setExpressao( sintatic->getExpression() );
+    setExpressao(sintatic->getExpression());
     setVariableList( sintatic->getVariableList() ); 
 
-    std::cout << "EqName:" << getName() <<std::endl;
+
     std::cout << "EqExpressao:" << getExpressao() << std::endl;
     std::cout << "Variable list" << std::endl;
         for(int i=0 ; i < countVariableList() ; i++ ){
@@ -29,7 +34,8 @@ EquationManager::EquationManager(std::string s){
 }
 
 EquationManager::~EquationManager(){
-    sintatic.reset();
+    sintatic->~SINTATIC();
+    free(sintatic);
 }
 
 void EquationManager::generatePdfFile(){
@@ -46,12 +52,12 @@ void EquationManager::generatePdfFile(){
 void EquationManager::generateLatexFile(){
     std::ofstream l_file;
     std::string full_name = getName()+".tex";
-    char *eq_resolved;
+    //char *eq_resolved;
 
 
-    std::cout << "Parsing" <<std::endl;
-    yy_scan_string(eq.c_str());
-    yyparse(&eq_resolved);
+    //std::cout << "Parsing" <<std::endl;
+    //yy_scan_string(eq.c_str());
+    //yyparse(&eq_resolved);
 
     std::cout << "Opening File"<< std::endl;
     //cout << eq_resolved <<endl;

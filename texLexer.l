@@ -21,7 +21,7 @@
 \,                  { return ','; }
 \=                  { return '='; }
 [\n]                { return '\n'; }
-PI                  { return PI; }
+("PI"|"pi")         { return PI; }
 e                   { return EULER;}
 ("SIN"|"sin")       { return SIN; }
 ("COS"|"cos")       { return COS; }
@@ -30,8 +30,10 @@ e                   { return EULER;}
 ("ACOS"|"acos")     { return ACOS; }
 ("ATAN"|"atan")     { return ATAN; }
 ("SINH"|"sinh")     { return SINH; }
-("COSH"|cosh)       { return COSH; }
-("TANH"|tanh)       { return TANH; }
+("COSH"|"cosh")     { return COSH; }
+("EXP"|"exp")       { return '^'; }
+("NEP"|"nep")       { return EULER; }
+("TANH"|"tanh")     { return TANH; }
 ("LOG"|"log")       { return LOG; }
 ("LN"|"ln")         { return LN; }
 ("ABS"|"abs")       { return ABS; }
@@ -40,5 +42,4 @@ e                   { return EULER;}
 [a-zA-Z][a-z0-9]?    { yylval.str = strdup(yytext); return VAR;}
 [ \t]*              { }
 .                   { printf("What is this: %s.\n", yytext); }
-
 %%

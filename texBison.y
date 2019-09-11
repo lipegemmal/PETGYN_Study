@@ -1,21 +1,23 @@
 
-
 %{
 
 #include <stdio.h>
+#include <iostream>
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
 
+#include "sintaticAnalizer.h"
 #include "texLexer.h"
 
-extern int yyparse();
+//extern int yyparse();
 extern int yylex();
-void yyerror(char **result,const char *s);
+void yyerror(char **result, SINTATIC *sintatic,const char *s);
+//void yyerror( SINTATIC *sintatic,const char *s);
 
 %}
 
-%parse-param { char **result }
+%parse-param { char **result} { class SINTATIC *sintatic}
 
 %union{
     double d;
@@ -50,13 +52,21 @@ calc:
     sprintf(c,"%s (%s) = %s",$1,$2,$4);
     *result = strdup(c); 
     printf("Resultado dentro do bison: %s e %s e %s\n",$1,$2,$4);
+    
+
     free($1);
     free($2);
     free($4);
 }
 ;
 
-cabecalho: VAR{ $$ = $1;}
+cabecalho: VAR{ 
+    $$ = $1;
+
+    sintatic->setEquationName($1);
+    //std::cout << "In Bison EqName:" << sintatic->getName() <<std::endl;
+
+}
 ;
 
 variaveis: {   
@@ -70,6 +80,7 @@ variaveis: {
         sprintf(c,"%s",$2);
         $$ = strdup(c);
         free($2);
+
     }
 ;
 
@@ -78,16 +89,27 @@ vars: VAR','vars {
     sprintf(c,"%s,%s",$1,$3);
     $$ = strdup(c);
     free($3);
+
+    sintatic->insertVariableList($1);
+
     }
 
-|VAR {$$ = $1;}
+|VAR {
+    $$ = $1;
+
+    sintatic->insertVariableList($1);
+}
 ;
+
 
 exp: VAR { 
        //char *c = strdup($1);
         $$ = $1;
-}
 
+        if(!sintatic->isInList($1)){
+            std::cout<<"Variavel " << $1 << " não está declarada" <<std::endl;           
+        };
+}
     | NUMBER { 
         char c[24]; 
         sprintf(c,"\\num{%s}",$1);   
@@ -224,7 +246,9 @@ trigfunc:
 
         sprintf(c,"\\sin{(%s)}",$3);
         $$ = strdup(c);
+
         free($3);
+
     }
     
     | COS '(' exp ')'
@@ -301,8 +325,8 @@ int main(int argc, char **argv){
     return 0;
 }
 */
-void yyerror(char **result , const char *s) {
-  printf("EEK, parse error on texBison!  Message: %s Result: %s\n",s,*result);
+void yyerror(char **result, SINTATIC *sintatic ,const char *s) {
+  printf("EEK, parse error on testBison!  Message: %s \n",s);
   // might as well halt now:
   exit(-1);
 }

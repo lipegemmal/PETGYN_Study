@@ -8,12 +8,13 @@
 class EquationManager{
     private:
       
-      std::unique_ptr<SINTATIC> sintatic;
+      SINTATIC *sintatic;
 
       std::string eqName;
       std::string eqExpressao;
       std::string eq;
       std::vector< std::string> variableList;
+      char *eq_resolved;
 
       void setEquation(std::string s){eq = s +"\n";};
       void setName(std::string s){eqName = s;};
