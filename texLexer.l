@@ -39,7 +39,7 @@ e                   { return EULER;}
 ("ABS"|"abs")       { return ABS; }
 ("SQRT"|"sqrt")     { return SQRT; }
 [0-9]+([.][0-9]*)?([eE]([-]|[+])?[0-9]*)? { yylval.str = strdup(yytext) ; return NUMBER;} 
-[a-zA-Z][a-z0-9]?    { yylval.str = strdup(yytext); return VAR;}
+[a-zA-Z][a-zA-Z0-9]*    { yylval.str = strdup(yytext); return VAR;}
 [ \t]*              { }
 .                   { printf("What is this: %s.\n", yytext); }
 %%
