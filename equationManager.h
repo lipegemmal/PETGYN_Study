@@ -10,8 +10,11 @@ class EquationManager{
       
       SINTATIC *sintatic;
 
+      //Nome da equação
       std::string eqName;
+      //Expressão depois do = 
       std::string eqExpressao;
+      //Equação em si
       std::string eq;
       std::vector< std::string> variableList;
       char *eq_resolved;

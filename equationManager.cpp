@@ -61,9 +61,9 @@ void EquationManager::generateLatexFile(){
 
     std::cout << "Opening File"<< std::endl;
     //cout << eq_resolved <<endl;
-    std::string trigfunctions ="\\DeclareMathOperator{\\asin}{asin}\n";
-    trigfunctions += "\\DeclareMathOperator{\\acos}{acos}\n";
-    trigfunctions+="\\DeclareMathOperator{\\atan}{atan}\n";
+    //std::string trigfunctions ="\\DeclareMathOperator{\\asin}{asin}\n";
+    //trigfunctions += "\\DeclareMathOperator{\\acos}{acos}\n";
+    //trigfunctions+="\\DeclareMathOperator{\\atan}{atan}\n";
     //trigfunctions += "\\DeclareMathOperator{\\sinh}{sinh}\n";
     //trigfunctions += "\\DeclareMathOperator{\\cosh}{cosh}\n";
     //trigfunctions += "\\DeclareMathOperator{\\tanh}{tanh}\n";
@@ -73,7 +73,7 @@ void EquationManager::generateLatexFile(){
     l_file << "\\documentclass[preview,border=1pt]{standalone}\n";
     l_file <<"\\usepackage{siunitx}\n";
     l_file <<"\\usepackage{amsmath}\n";
-    l_file << trigfunctions;
+    //l_file << trigfunctions;
     l_file << "\\begin{document}\n";
     l_file << "$\n";
     l_file << eq_resolved;
