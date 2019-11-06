@@ -1,6 +1,7 @@
 NoToolCompiler/ANAEXPR.h
 NoToolCompiler/ANAEXPR.c
 
+ForNewGit/*
 
 lex.yy.c
 texLexer.h

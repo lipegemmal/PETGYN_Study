@@ -130,11 +130,7 @@ exp: VAR {
         sprintf(c,"e");
         $$ = strdup(c);
     }
-
-    |trigfunc{
-        $$ = $1;
-    }
-    
+  
     | LOG '(' exp ')'
     {
         char c[1024];
@@ -237,83 +233,6 @@ exp: VAR {
         free($2);
     }
 
-;
-
-trigfunc: 
-    SIN '(' exp ')'
-    {
-        char c[1024];
-
-        sprintf(c,"\\sin{(%s)}",$3);
-        $$ = strdup(c);
-
-        free($3);
-
-    }
-    
-    | COS '(' exp ')'
-    {
-        char c[1024];
-        sprintf(c,"\\cos{(%s)}",$3);
-        $$ = strdup(c);
-        free($3);
-    }
-
-    | TAN '(' exp ')'
-    {
-        char c[1024];
-        sprintf(c,"\\tan{(%s)}",$3);
-        $$ = strdup(c);
-        free($3);
-    }
-    
-    | ASIN '(' exp ')'
-    {
-        char c[1024];
-        sprintf(c,"\\asin{(%s)}",$3);
-        $$ = strdup(c);
-        free($3);
-    }
-
-    | ACOS '(' exp ')'
-    {
-        char c[1024];
-        sprintf(c,"\\acos{(%s)}",$3);
-        $$ = strdup(c);
-        free($3);
-    }
-
-    | ATAN '(' exp ')'
-    {
-        char c[1024];
-        sprintf(c,"\\atan{(%s)}",$3);
-        $$ = strdup(c);
-        free($3);
-    }
-
-    | SINH '(' exp ')'
-    {
-        char c[1024];
-        sprintf(c,"\\sinh{(%s)}",$3);
-        $$ = strdup(c);
-        free($3);
-    }
-
-    | COSH '(' exp ')'
-    {
-        char c[1024];
-        sprintf(c,"\\cosh{(%s)}",$3);
-        $$ = strdup(c);
-        free($3);
-    }
-    
-    | TANH '(' exp ')'
-    {
-        char c[1024];
-        sprintf(c,"\\tanh{(%s)}",$3);
-        $$ = strdup(c);
-        free($3);
-    }
 ;
 %%
 
