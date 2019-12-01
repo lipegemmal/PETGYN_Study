@@ -27,6 +27,7 @@ e                   { return EULER;}
 ("NEP"|"nep")       { return EULER; }
 ("LOG"|"log")       { return LOG; }
 ("LN"|"ln")         { return LN; }
+("pow"|"POW")       {return POW; }
 ("ABS"|"abs")       { return ABS; }
 ("SQRT"|"sqrt")     { return SQRT; }
 [0-9]+([.][0-9]*)?([eE]([-]|[+])?[0-9]*)? { yylval.str = strdup(yytext) ; return NUMBER;} 

@@ -35,14 +35,14 @@ void yyerror(char **result, SINTATIC *sintatic,const char *s);
 %token <str> ABS SQRT
 %left '-' '+'
 %left '*' '/'
-%right '^'    /* exponentiation */
+%right '^' POW    /* exponentiation */
 %token '\n'
 %type <str>  exp
-%type <str> trigfunc
 %type <str> cabecalho 
 %type <str> variaveis
 %type <str> vars
 /* Grammar follows */
+
 
 %%
 
@@ -223,7 +223,16 @@ exp: VAR {
         free($1);
         free($3);
     }
+    | POW '(' exp ',' exp ')'
+    {
+        char c[1024];
 
+        sprintf(c,"%s^{%s}",$3,$5);
+        $$ = strdup(c);
+        free($3);
+        free($5);
+
+    }
     | '(' exp ')' 
     {
         char c[1024];//= malloc( (sizeof(char)*sizeof($1)*sizeof('+')*sizeof($3))+1 );

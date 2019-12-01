@@ -178,7 +178,7 @@ void EquationManager::generateDynamicLib (){
 
     std::cout << "compilando arquivo usando gcc" << std::endl;
 
-    std::string gcc_call = "gcc -o "+getName() +" "+getName()+".c";
+    std::string gcc_call = "gcc -o "+getName() +" "+getName()+".c -lm";
 
     system(gcc_call.c_str());
 
