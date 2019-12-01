@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ostream>
 #include <fstream>
 #include <stdlib.h>
 
@@ -101,24 +102,85 @@ void EquationManager::generateDynamicLib (){
 
     int variableQtd = countVariableList();
 
-    std::cout << "Gerando arquivo c" <<std::endl;
+    std::cout << "Gerando arquivo c" << std::endl;
 
     c_file.open(full_name.c_str());
 
-    c_file << "#include <math.h>\n\n";
-    c_file << "double "+ getName() + "(";
-        for(int i = 0; i < variableQtd ; i++){
-            c_file << "double " + getVariable(i);
-            //this prevents the extra ','
-            if( i+1 != variableQtd){
-                c_file << ",";
-            } 
-        }    
+    c_file << "#include <math.h>\n#include <stdio.h>\n\n";
+    c_file << "double " + getName() + "(";
+    for (int i = 0; i < variableQtd; i++)
+    {
+        c_file << "double " + getVariable(i);
+        //this prevents the extra ','
+        if (i + 1 != variableQtd)
+        {
+            c_file << ",";
+        }
+    }
     c_file << "){\n\n";
-    c_file << "return "+ getExpressao() +" ; \n}";
+    c_file << "return " + getExpressao() + " ; \n}\n";
 
+    //criando a main
+
+    c_file << "int main(){\n";
+    //criando as variaveis para colocar os valores
+    if (variableQtd != 0)
+    {
+        c_file << "double ";
+        for (int i = 0; i < variableQtd; i++)
+        {
+            c_file << "a" + std::to_string(i);
+            if (i != variableQtd - 1)
+            {
+                c_file << ",";
+            }
+        }
+        c_file << ";\n";
+        //lendo os valores usando scanf
+        c_file << "scanf(\"";
+        for (int i = 0; i < variableQtd; i++)
+        {
+            c_file << "%lf";
+        }
+        c_file << "\", ";
+
+        for (int i = 0; i < variableQtd; i++)
+        {
+            c_file << "&a" + std::to_string(i);
+            if (i != variableQtd - 1)
+            {
+                c_file << ",";
+            }
+        }
+        c_file << ");\n";
+        //chamando funções utilizando as variaveis
+
+        c_file << "printf(\"%lf\\n\", " + getName() + "(";
+        for (int i = 0; i < variableQtd; i++)
+        {
+            c_file << "a" + std::to_string(i);
+            if (i != variableQtd - 1)
+            {
+                c_file << ",";
+            }
+        }
+        c_file << "));\n return 0;\n}";
+    }
+    else
+    {
+        c_file << " printf(\"%lf\\n\", " + getName() + ");\n";
+        c_file << "return 0;\n}";
+    }
+    
     c_file.close();
-
+    
     std::cout << "Arquivo c gerado" << std::endl;
+
+    std::cout << "compilando arquivo usando gcc" << std::endl;
+
+    std::string gcc_call = "gcc -o "+getName() +" "+getName()+".c";
+
+    system(gcc_call.c_str());
+
 
 }
