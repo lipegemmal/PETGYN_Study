@@ -213,16 +213,6 @@ exp: VAR {
         $$ = strdup(c);
         free($2);
     }
-
-    | exp '^' exp
-    {
-         char c[1024];//= malloc( (sizeof(char)*sizeof($1)*sizeof('+')*sizeof($3))+1 );
-        
-        sprintf(c,"%s^{%s}",$1,$3);
-        $$ = strdup(c);
-        free($1);
-        free($3);
-    }
     | POW '(' exp ',' exp ')'
     {
         char c[1024];

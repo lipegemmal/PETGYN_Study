@@ -108,11 +108,11 @@ void EquationManager::generateDynamicLib (){
 
     c_file << "#include <math.h>\n#include <stdio.h>\n\n";
     c_file << "double " + getName() + "(";
-    for (int i = 0; i < variableQtd; i++)
+    for (int i = variableQtd-1 ; i >= 0; i--)
     {
         c_file << "double " + getVariable(i);
         //this prevents the extra ','
-        if (i + 1 != variableQtd)
+        if (i != 0)
         {
             c_file << ",";
         }
