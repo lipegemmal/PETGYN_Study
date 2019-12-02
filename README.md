@@ -16,7 +16,7 @@ There is a old Bison and Flex implementation that is outdated in "otherImplement
 
 ##  Dependencies
 
-Magic Touch with Pdf->Png conversion enabled.
+ImageMagic with Pdf->Png conversion enabled. https://imagemagick.org/index.php
 flex and bison libraries installed (only for compiling).
 
 
