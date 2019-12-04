@@ -107,6 +107,7 @@ void EquationManager::generateDynamicLib (){
     c_file.open(full_name.c_str());
 
     c_file << "#include <math.h>\n#include <stdio.h>\n\n";
+    c_file << "#define PI 3.14 \n#define pi 3.14 \n#define euler 2.71828 \n#define EULER 2.71828\n";
     c_file << "double " + getName() + "(";
     for (int i = variableQtd-1 ; i >= 0; i--)
     {
@@ -168,7 +169,7 @@ void EquationManager::generateDynamicLib (){
     }
     else
     {
-        c_file << " printf(\"%lf\\n\", " + getName() + ");\n";
+        c_file << " printf(\"%lf\\n\", " + getName() + "());\n";
         c_file << "return 0;\n}";
     }
     
